@@ -1,0 +1,20 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "testuser",
+            "password": "$2b$12$xHOcwCJZ.7d04QHW6jMoveBXHHhWl40BGhSjPJKodmiqa6v7MYhnW",
+            "role": "customer"
+        }
+    ],
+    "cars": [
+        {
+            "make": "Toyota",
+            "model": "Prado",
+            "category": "SUV",
+            "daily_rate": 100,
+            "id": 1
+        }
+    ],
+    "bookings": []
+}
