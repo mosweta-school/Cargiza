@@ -127,11 +127,15 @@ Run tests using:
 ## 🚀 How to Run
 1. Clone the repository
 git clone https://github.com/mosweta/cargiza.git
-cd cargiza
-2. Install dependencies
+2. cd cargiza
+3. Install dependencies
+```bash
 pip install -r requirements.txt
-3. Run the application
+```
+4. Run the application
+```bash
 python main.py
+```
 
 ## 📌 GitHub Workflow
 ### Branches
@@ -208,10 +212,10 @@ Only for final submission/deployment.
 - JSON for persistence
 - argparse (CLI interface)
 - pytest (testing) 
--bcrypt (password hashing)
--tabulate	(Professional CLI tables)
--holidays	(Detect Kenyan public holiday)
--python-dateutil	(Date calculations and parsing)
+- bcrypt (password hashing)
+- tabulate	(Professional CLI tables)
+- holidays	(Detect Kenyan public holiday)
+- python-dateutil	(Date calculations and parsing)
 
 ## 📈 Future Improvements
 - Add user authentication system
