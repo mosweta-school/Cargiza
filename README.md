@@ -54,23 +54,37 @@ The system includes dynamic availability checking, pricing calculations with dis
 cargiza/
 │
 ├── main.py
-├── cli/
-│ └── commands.py
+│
 ├── models/
-│ ├── car.py
-│ ├── booking.py
-│ └── user.py
+│   ├── user.py
+│   ├── car.py
+│   └── booking.py
+│
 ├── services/
-│ ├── booking_service.py
-│ ├── pricing_service.py
-│ └── availability_service.py
-├── utils/
-│ ├── file_handler.py
-│ └── date_utils.py
+│   ├── auth_service.py
+│   ├── booking_service.py
+│   ├── pricing_service.py
+│   └── availability_service.py
+│
+├── storage/
+│   └── json_repository.py
+│
+├── cli/
+│   ├── menus.py
+│   └── display.py
+│
+├── tests/
+│   ├── test_auth.py
+│   ├── test_booking.py
+│   ├── test_pricing.py
+│   └── test_availability.py
+│
 ├── data/
-│ └── db.json
-└── tests/
-└── test_booking.py
+│   └── db.json
+│
+├── Pipfile
+├── README.md
+└── requirements.txt
 ```
 
 ---
@@ -119,11 +133,85 @@ pip install -r requirements.txt
 3. Run the application
 python main.py
 
+## 📌 GitHub Workflow
+### Branches
+- main → production-ready code (final submission)
+- development → integration branch
+- feature/* → individual features
+
+📥 1. Sync with latest development
+```bash
+git checkout development
+git pull origin development
+```
+👉 This ensures you start from the latest stable code.
+
+🌿 3. Create a feature branch
+git checkout -b feature/feature-name
+
+Example:
+```bash
+feature/auth-login
+feature/event-crud
+```
+💻 4. Work on the feature
+
+Make changes normally.
+
+💾 5. Commit changes
+```bash
+git add .
+git commit -m "Add feature description"
+```
+🔄 6. Keep feature branch updated 
+
+Instead of pulling development directly into feature randomly, do:
+```bash
+git checkout development
+git pull origin development
+
+git checkout feature/feature-name
+git merge development
+```
+🚀 7. Push feature branch
+```bash
+git push origin feature/feature-name
+```
+🔁 8. Create Pull Request (PR)
+```
+Base branch: development
+Compare branch: feature/feature-name
+```
+
+👀 9. Code review process
+Reviewer checks:
+- code quality
+- bugs
+- structure
+- naming conventions
+Scrum Master or teammate approves
+
+### ✅ 10. Merge into development
+```
+feature/* → development
+```
+🚀 11. Final release
+
+When everything is complete:
+```
+development → main
+```
+Only for final submission/deployment.
+
 ## 🛠️ Technologies Used
 - Python 3
 - JSON for persistence
 - argparse (CLI interface)
-- pytest (testing)
+- pytest (testing) 
+-bcrypt (password hashing)
+-tabulate	(Professional CLI tables)
+-holidays	(Detect Kenyan public holiday)
+-python-dateutil	(Date calculations and parsing)
 
 ## 📈 Future Improvements
 - Add user authentication system
