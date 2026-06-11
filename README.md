@@ -134,7 +134,7 @@ Current test coverage:
 ## 🚀 How to Run
 1. Clone repository
 ```bash
-git clone https://github.com/opiyo/cargiza.git
+git clone https://github.com/mosweta-school/cargiza.git
 cd cargiza
 ```
 3. Create virtual environment
