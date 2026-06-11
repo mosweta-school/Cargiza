@@ -1,17 +1,30 @@
 from services.auth_service import AuthService
 
-
 class AuthCLI:
 
     def __init__(self, repo=None):
         self.service = AuthService(repo)
 
-    def show_login(self):
-        """Handles login flow (test-friendly version)"""
+    def show_login(self, username=None, password=None):
+        """Handles login flow (interactive + testable)"""
+
         print("\n======================")
         print("     CARGIZA LOGIN    ")
         print("======================\n")
 
+        #  TEST MODE (no input())
+        if username is not None and password is not None:
+            user = self.service.login(username, password)
+
+            if user:
+                print("\nLogin successful!")
+                print(f"Welcome {user['username']} ({user['role']})\n")
+                return user
+
+            print("\nInvalid username or password!\n")
+            return None
+
+        #  INTERACTIVE MODE (real CLI)
         username = input("Username: ")
         password = input("Password: ")
 
@@ -21,9 +34,9 @@ class AuthCLI:
             print("\nLogin successful!")
             print(f"Welcome {user['username']} ({user['role']})\n")
             return user
-        else:
-            print("\nInvalid username or password!\n")
-            return None
+
+        print("\nInvalid username or password!\n")
+        return None
 
     def show_register(self):
         """Register new users"""
