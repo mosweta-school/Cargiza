@@ -1,5 +1,6 @@
 from services.auth_service import AuthService
 from storage.json_repository import JsonRepository
+from storage.fake_json_repository import FakeRepository
 
 def make_clean_repo():
     repo = JsonRepository("data/test_db.json")
@@ -12,7 +13,8 @@ def make_clean_repo():
 
 
 def test_register_and_login():
-    auth = AuthService()
+    repo = FakeRepository()
+    auth = AuthService(repo)
 
     user = auth.register("testuser", "1234", "customer")
 
