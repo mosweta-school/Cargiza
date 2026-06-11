@@ -3,7 +3,7 @@
 Cargiza is a Python-based Command Line Interface (CLI) application for managing a car rental system. It supports role-based access (Admin & Customer), booking management, dynamic pricing, and persistent storage using JSON.
 The system is designed using object-oriented principles, service-layer architecture, and automated testing with pytest.
 
----
+
 ## 📌 Features
 ### 👨‍💼 Admin Features
 - Add new cars to inventory
@@ -128,8 +128,7 @@ Run coverage:
 ```
 python3 -m pytest --cov=services --cov-report=html
 ```
-Current coverage:
-- 94%
+Current test coverage:
 ![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)
 
 ## 🚀 How to Run
