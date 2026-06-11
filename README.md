@@ -1,224 +1,199 @@
 # 🚗 Cargiza - Car Rental Management System
 
-Cargiza is a Python-based Command Line Interface (CLI) application for managing car rentals. It allows administrators to manage vehicle inventory and customers to book cars based on availability, rental duration, and pricing rules.
+Cargiza is a Python-based Command Line Interface (CLI) application for managing a car rental system. It supports role-based access (Admin & Customer), booking management, dynamic pricing, and persistent storage using JSON.
 
-The system includes dynamic availability checking, pricing calculations with discounts, and persistent data storage using JSON.
-
+The system is designed using object-oriented principles, service-layer architecture, and automated testing with pytest.
 ---
-
 ## 📌 Features
-
 ### 👨‍💼 Admin Features
-- Add new cars to the system
-- Update car details (price, category, etc.)
-- Remove cars from inventory
-- View all registered cars
-
+- Add new cars to inventory
+- Update car details (price, category, availability)
+- Delete/remove cars from system
+- View all registered vehicles
+  
 ### 👤 Customer Features
-- View available cars by category
-- Book a car for a selected date range
-- Receive automatic price calculations
-- Apply discounts for:
-  - Weekend days (Saturday & Sunday)
-  - Public holidays (if applicable)
+- View available cars by category and date
+- Book cars using date-range selection
+- Automatic pricing calculation
 - View booking history
-
+  
 ### ⚙️ System Features
-- Real-time car availability checking
-- Date range booking system
-- Overlapping booking prevention
-- Persistent data storage using `db.json`
-- Structured and modular design
-
----
-
+- Real-time availability checking (prevents overlapping bookings)
+- Date-range booking system
+- Persistent JSON-based storage (db.json)
+- Modular service-oriented architecture
+- Role-based access control (Admin / Customer)
+  
 ## 🧠 How It Works
+- User starts the CLI application (python main.py)
+- User logs in or registers an account
+- Role determines access (Admin or Customer)
+- Customer selects booking dates
+- System checks:
+  1. Car availability
+  2. Existing bookings (overlap detection)
+  3. Pricing engine calculates total cost:
+  4. Base rate × number of days
+  5. Weekend discount applied (if applicable)
+  6. Holiday discount applied (if applicable)
+- Booking is saved into db.json
+## 🏗️ System Architecture
 
-1. The user starts the CLI application.
-2. Customer selects booking dates and duration.
-3. The system checks `db.json` for existing bookings.
-4. Available cars in the selected category are displayed.
-5. User selects a car.
-6. System calculates total cost:
-   - Daily rate × number of days
-   - Applies 10% discount for weekends
-   - Applies holiday discounts (if any)
-7. Booking is confirmed and saved to `db.json`.
-8. Users can view their booking history anytime.
+The system follows a layered architecture:
+```
+CLI Layer
+   ↓
+Service Layer
+(Auth / Booking / Pricing / Availability)
+   ↓
+Repository Layer
+(JSON Persistence)
+```
 
----
-
-## 🏗️ Project Structure
-
+## 📂 Project Structure
 ```
 cargiza/
 │
 ├── main.py
 │
-├── models/
-│   ├── user.py
-│   ├── car.py
-│   └── booking.py
+├── cli/
+│   ├── auth_cli.py
+│   ├── admin_cli.py
+│   └── customer_cli.py
 │
 ├── services/
 │   ├── auth_service.py
 │   ├── booking_service.py
 │   ├── pricing_service.py
-│   └── availability_service.py
+│   ├── availability_service.py
+│   └── car_service.py
 │
 ├── storage/
 │   └── json_repository.py
 │
-├── cli/
-│   ├── menus.py
-│   └── display.py
-│
 ├── tests/
 │   ├── test_auth.py
 │   ├── test_booking.py
+│   ├── test_booking_lifecycle.py
 │   ├── test_pricing.py
-│   └── test_availability.py
+│   ├── test_availability.py
+│   └── test_cli_integration.py
 │
 ├── data/
 │   └── db.json
 │
-├── Pipfile
-├── README.md
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
+## 💾 Data Storage
 
----
-
-## 💾 Data Storage (db.json)
-
-The system uses JSON file storage to persist data:
-
-```json
+The system uses a JSON file (db.json) for persistence:
+```
 {
-  "user":[],
+  "users": [],
   "cars": [],
   "bookings": []
 }
 ```
 
-This ensures all bookings and car data remain available even after the program is closed.
-
 ## 🧮 Pricing Rules
 
-The system calculates rental cost using:
+Pricing is computed dynamically based on booking duration:
 
-- Base price = daily_rate × number_of_days
-- Weekend discount = 10% off Saturday & Sunday
-- Holiday discount = 10% off applicable public holidays
+Formula:
+Base price = daily_rate × number_of_days
+Discounts:
+Weekend discount (Saturday & Sunday)
+Holiday discount (public holidays if applicable)
 
-## 🧪 Testing
+Note: Holiday detection is implemented using system logic (optionally extendable to API-based sources)
 
-The project uses pytest for testing core logic such as:
+## 🧪 Testing Strategy
 
-- Booking validation
-- Date overlap detection
-- Price calculation
-- Availability filtering
+The project uses pytest for automated testing.
 
-Run tests using:
-
-- pytest
+Coverage Includes:
+- Authentication logic
+- Booking creation & validation
+- Availability checks
+- Pricing calculations
+- Repository persistence
+- CLI integration flows
+- Booking lifecycle scenarios
+Run tests:
+```
+python3 -m pytest
+```
+Run coverage:
+```
+python3 -m pytest --cov=services --cov-report=html
+```
+Current coverage:
+- 94%
+![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)
 
 ## 🚀 How to Run
-1. Clone the repository
-git clone https://github.com/mosweta/cargiza.git
-2. cd cargiza
-3. Install dependencies
+1. Clone repository
+```bash
+git clone https://github.com/opiyo/cargiza.git
+cd cargiza
+```
+3. Create virtual environment
+```bash
+python3 -m venv .env
+```
+3. Activate environment
+```bash
+source .env/bin/activate
+```
+4. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
-4. Run the application
+5. Run application
 ```bash
 python main.py
 ```
 
-## 📌 GitHub Workflow
-### Branches
-- main → production-ready code (final submission)
-- development → integration branch
-- feature/* → individual features
-
-📥 1. Sync with latest development
-```bash
+## 🧑‍💻 Git Workflow
+Branching Strategy:
+```
+main → production-ready code
+development → integration branch
+feature/* → feature development
+```
+Workflow:
+```
 git checkout development
 git pull origin development
+git checkout -b feature/new-feature
 ```
-👉 This ensures you start from the latest stable code.
-
-🌿 3. Create a feature branch
-git checkout -b feature/feature-name
-
-Example:
-```bash
-feature/auth-login
-feature/event-crud
+Commit changes:
 ```
-💻 4. Work on the feature
-
-Make changes normally.
-
-💾 5. Commit changes
-```bash
 git add .
-git commit -m "Add feature description"
+git commit -m "Add feature"
 ```
-🔄 6. Keep feature branch updated 
-
-Instead of pulling development directly into feature randomly, do:
-```bash
-git checkout development
-git pull origin development
-
-git checkout feature/feature-name
-git merge development
+Push:
 ```
-🚀 7. Push feature branch
-```bash
-git push origin feature/feature-name
+git push origin feature/new-feature
 ```
-🔁 8. Create Pull Request (PR)
+Merge flow:
 ```
-Base branch: development
-Compare branch: feature/feature-name
+feature → development → main
 ```
-
-👀 9. Code review process
-Reviewer checks:
-- code quality
-- bugs
-- structure
-- naming conventions
-Scrum Master or teammate approves
-
-### ✅ 10. Merge into development
-```
-feature/* → development
-```
-🚀 11. Final release
-
-When everything is complete:
-```
-development → main
-```
-Only for final submission/deployment.
 
 ## 🛠️ Technologies Used
 - Python 3
 - JSON for persistence
 - argparse (CLI interface)
-- pytest (testing) 
+- pytest (testing) + pytest-cov (test coverage)
 - bcrypt (password hashing)
 - tabulate	(Professional CLI tables)
 - holidays	(Detect Kenyan public holiday)
 - python-dateutil	(Date calculations and parsing)
+- GitHub Actions CI
 
 ## 📈 Future Improvements
-- Add user authentication system
 - Convert CLI into a web application (Flask/Django)
 - Add payment simulation system
 - Improve UI with rich terminal interface (Textual / curses)
