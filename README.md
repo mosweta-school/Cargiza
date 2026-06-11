@@ -130,8 +130,8 @@ python3 -m pytest --cov=services --cov-report=html
 ```
 Current test coverage:
 - 94%
-CI & Coverage
-[![codecov](https://codecov.io/gh/opiyo/cargiza/branch/main/graph/badge.svg)](https://codecov.io/gh/mosweta-school/cargiza)
+## CI & Coverage
+[![codecov](https://codecov.io/gh/mosweta-school/cargiza/branch/main/graph/badge.svg)](https://codecov.io/gh/mosweta-school/cargiza)
 
 ## 🚀 How to Run
 1. Clone repository
