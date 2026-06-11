@@ -17,16 +17,21 @@ class JsonRepository:
                     "cars": [],
                     "bookings": []
                 }, f, indent=4)
+    def _normalize(self, data: dict) -> dict:
+        data.setdefault("users", [])
+        data.setdefault("cars", [])
+        data.setdefault("bookings", [])
+        return data
 
     def load_data(self) -> dict:
-        """Load entire database safely (CI-proof)"""
+        """Load entire database safely (CI + test safe)"""
         try:
             with open(self.file_path, "r") as f:
-                data = json.load(f)
+                data = self._normalize(json.load(f))
         except (FileNotFoundError, json.JSONDecodeError):
             data = {}
 
-        # ✅ GUARANTEE STRUCTURE
+        # ✅ GUARANTEE STRUCTURE ALWAYS EXISTS
         data.setdefault("users", [])
         data.setdefault("cars", [])
         data.setdefault("bookings", [])
