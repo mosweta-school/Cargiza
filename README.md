@@ -1,5 +1,5 @@
 # 🚗 Cargiza - Car Rental Management System
-
+---
 Cargiza is a Python-based Command Line Interface (CLI) application for managing a car rental system. It supports role-based access (Admin & Customer), booking management, dynamic pricing, and persistent storage using JSON.
 
 The system is designed using object-oriented principles, service-layer architecture, and automated testing with pytest.
@@ -106,7 +106,7 @@ Discounts:
 Weekend discount (Saturday & Sunday)
 Holiday discount (public holidays if applicable)
 
-Note: Holiday detection is implemented using system logic (optionally extendable to API-based sources)
+Note: Holiday detection is implemented using holidays python package
 
 ## 🧪 Testing Strategy
 
