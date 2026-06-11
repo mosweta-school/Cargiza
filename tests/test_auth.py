@@ -1,4 +1,14 @@
 from services.auth_service import AuthService
+from storage.json_repository import JsonRepository
+
+def make_clean_repo():
+    repo = JsonRepository("data/test_db.json")
+    repo.save_data({
+        "users": [],
+        "cars": [],
+        "bookings": []
+    })
+    return repo
 
 
 def test_register_and_login():
