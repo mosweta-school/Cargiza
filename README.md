@@ -137,8 +137,8 @@ Current test coverage:
 ## 🚀 How to Run
 1. Clone repository
 ```bash
-git clone https://github.com/mosweta-school/cargiza.git
-cd cargiza
+git clone git@github.com:mosweta-school/Cargiza.git
+cd Cargiza
 ```
 3. Create virtual environment
 ```bash
@@ -154,7 +154,7 @@ pip install -r requirements.txt
 ```
 5. Run application
 ```bash
-python main.py
+python3 main.py
 ```
 
 ## 🧑‍💻 Git Workflow
