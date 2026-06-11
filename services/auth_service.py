@@ -16,6 +16,12 @@ class AuthService:
     def register(self, username, password, role):
         data = self.repo.load_data()
 
+        # ✅ GUARANTEE STRUCTURE (CRITICAL FOR CI)
+        data.setdefault("users", [])
+        data.setdefault("cars", [])
+        data.setdefault("bookings", [])
+
+        # check duplicates
         for user in data["users"]:
             if user["username"] == username:
                 return {"error": "User already exists"}
@@ -25,7 +31,7 @@ class AuthService:
         user = {
             "id": len(data["users"]) + 1,
             "username": username,
-            "password": hashed,   # ✅ MUST always exist
+            "password": hashed,
             "role": role
         }
 
