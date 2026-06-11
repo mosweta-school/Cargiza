@@ -4,8 +4,8 @@ from dateutil.parser import parse
 
 class AvailabilityService:
 
-    def __init__(self):
-        self.repo = JsonRepository()
+    def __init__(self, repo=None):
+        self.repo = repo or JsonRepository()
 
     def _dates_overlap(self, start1, end1, start2, end2):
         """Core overlap logic"""
@@ -17,7 +17,7 @@ class AvailabilityService:
         new_start = parse(start_date)
         new_end = parse(end_date)
 
-        for booking in data["bookings"]:
+        for booking in data.get("bookings", []):
             if booking["car_id"] == car_id:
                 existing_start = parse(booking["start_date"])
                 existing_end = parse(booking["end_date"])
@@ -32,7 +32,7 @@ class AvailabilityService:
 
         available = []
 
-        for car in data["cars"]:
+        for car in data.get("cars", []):
             if car["category"] == category:
                 if self.is_available(car["id"], start_date, end_date):
                     available.append(car)

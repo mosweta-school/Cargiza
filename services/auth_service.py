@@ -4,8 +4,8 @@ from storage.json_repository import JsonRepository
 
 class AuthService:
 
-    def __init__(self):
-        self.repo = JsonRepository()
+    def __init__(self, repo=None):
+        self.repo = repo or JsonRepository()
 
     def hash_password(self, password: str) -> str:
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -13,13 +13,25 @@ class AuthService:
     def verify_password(self, password: str, hashed: str) -> bool:
         return bcrypt.checkpw(password.encode(), hashed.encode())
 
-    def register(self, username: str, password: str, role: str):
+    def register(self, username, password, role):
         data = self.repo.load_data()
+
+        # ✅ GUARANTEE STRUCTURE (CRITICAL FOR CI)
+        data.setdefault("users", [])
+        data.setdefault("cars", [])
+        data.setdefault("bookings", [])
+
+        # check duplicates
+        for user in data["users"]:
+            if user["username"] == username:
+                return {"error": "User already exists"}
+
+        hashed = self.hash_password(password)
 
         user = {
             "id": len(data["users"]) + 1,
             "username": username,
-            "password": self.hash_password(password),
+            "password": hashed,
             "role": role
         }
 
@@ -37,3 +49,7 @@ class AuthService:
                     return user
 
         return None
+    def get_route(self, user):
+        if user["role"] == "admin":
+            return "admin_dashboard"
+        return "customer_dashboard"

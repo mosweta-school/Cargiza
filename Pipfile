@@ -4,8 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+bcrypt = "*"
+python-dateutil = "*"
+tabulate = "*"
+holidays = "*"
+pluggy = "*"
+iniconfig = "*"
+packaging = "*"
+pygments = "*"
+six = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.12"
