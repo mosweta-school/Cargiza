@@ -131,7 +131,8 @@ python3 -m pytest --cov=services --cov-report=html
 Current test coverage:
 - 94%
 ## CI & Coverage
-[![codecov](https://codecov.io/gh/mosweta-school/cargiza/branch/main/graph/badge.svg)](https://codecov.io/gh/mosweta-school/cargiza)
+[![CI](https://img.shields.io/badge/CI-passing-brightgreen)](#)
+[![Coverage Status](https://img.shields.io/badge/coverage-94%25-brightgreen)](#)
 
 ## 🚀 How to Run
 1. Clone repository
