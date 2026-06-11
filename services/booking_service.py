@@ -1,32 +1,32 @@
-from storage.json_repository import JsonRepository
 from services.availability_service import AvailabilityService
 from services.pricing_service import PricingService
+from storage.json_repository import JsonRepository
 
 
 class BookingService:
 
-    def __init__(self):
-        self.repo = JsonRepository()
-        self.availability = AvailabilityService()
+    def __init__(self, repo=None):
+        self.repo = repo or JsonRepository()
+        self.availability = AvailabilityService(self.repo)
         self.pricing = PricingService()
 
     def create_booking(self, user_id, car, start_date, end_date):
 
-        # 1. Check availability
+        data = self.repo.load_data()
+
+        #ENSURE CAR EXISTS IN DB
+        car_exists = any(c["id"] == car["id"] for c in data["cars"])
+        if not car_exists:
+            return {"error": "Car not found"}
+
         if not self.availability.is_available(car["id"], start_date, end_date):
             return {"error": "Car not available"}
 
-        # 2. Calculate price
         pricing = self.pricing.calculate_pricing_breakdown(
             car["daily_rate"],
             start_date,
             end_date
         )
-
-        total = pricing["final_price"]
-
-        # 3. Load DB
-        data = self.repo.load_data()
 
         booking = {
             "id": len(data["bookings"]) + 1,
@@ -37,7 +37,7 @@ class BookingService:
             "start_date": start_date,
             "end_date": end_date,
             "pricing": pricing,
-            "total_cost": total
+            "total_cost": pricing["final_price"]
         }
 
         data["bookings"].append(booking)
@@ -51,3 +51,14 @@ class BookingService:
 
     def get_all_bookings(self):
         return self.repo.load_data()["bookings"]
+    def cancel_booking(self, booking_id):
+        data = self.repo.load_data()
+
+        data["bookings"] = [
+            b for b in data["bookings"]
+            if b["id"] != booking_id
+        ]
+
+        self.repo.save_data(data)
+        print("Booking cancelled successfully.")
+        return True

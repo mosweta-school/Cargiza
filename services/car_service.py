@@ -19,3 +19,29 @@ class CarService:
     def get_by_category(self, category: str):
         cars = self.repo.get_collection("cars")
         return [c for c in cars if c["category"] == category]
+    
+    def update_car(self, car_id, updates: dict):
+        data = self.repo.load_data()
+        cars = data["cars"]
+
+        for car in cars:
+            if car["id"] == car_id:
+
+                # apply updates safely
+                car.update(updates)
+
+                self.repo.save_data(data)
+                return car
+
+        return None
+    def delete_car(self, car_id):
+        data = self.repo.load_data()
+        cars = data["cars"]
+
+        for car in cars:
+            if car["id"] == car_id:
+                cars.remove(car)
+                self.repo.save_data(data)
+                return True
+
+        return False

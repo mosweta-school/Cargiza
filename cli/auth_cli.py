@@ -2,12 +2,12 @@ from services.auth_service import AuthService
 
 
 class AuthCLI:
-    def __init__(self):
-        self.auth_service = AuthService()
+
+    def __init__(self, repo=None):
+        self.service = AuthService(repo)
 
     def show_login(self):
-        """Displays login screen and handles authentication flow"""
-
+        """Handles login flow (test-friendly version)"""
         print("\n======================")
         print("     CARGIZA LOGIN    ")
         print("======================\n")
@@ -15,7 +15,7 @@ class AuthCLI:
         username = input("Username: ")
         password = input("Password: ")
 
-        user = self.auth_service.login(username, password)
+        user = self.service.login(username, password)
 
         if user:
             print("\nLogin successful!")
@@ -26,7 +26,7 @@ class AuthCLI:
             return None
 
     def show_register(self):
-        """Optional: register new users (useful for testing)"""
+        """Register new users"""
 
         print("\n===== REGISTER =====")
 
@@ -38,12 +38,16 @@ class AuthCLI:
         print("2. Customer")
 
         role_choice = input("Choice: ")
-
         role = "admin" if role_choice == "1" else "customer"
 
-        user = self.auth_service.register(username, password, role)
+        user = self.service.register(username, password, role)
+
+        # ✅ HANDLE ERROR CASE
+        if "error" in user:
+            print("\nRegistration failed:", user["error"])
+            return user
 
         print("\nUser created successfully!")
-        print(f"Username: {user['username']}, Role: {user['role']}\n")
+        print(f"Welcome {user['username']} ({user['role']})")
 
         return user

@@ -18,7 +18,8 @@ class CustomerCLI:
             print("1. View Cars")
             print("2. Book Car")
             print("3. View My Bookings")
-            print("4. Logout")
+            print("4. Cancel Booking")
+            print("5. Logout")
 
             choice = input("Select option: ")
 
@@ -32,6 +33,9 @@ class CustomerCLI:
                 self.view_bookings()
 
             elif choice == "4":
+                self.cancel_booking()
+
+            elif choice == "5":
                 print("Logging out...\n")
                 break
 
@@ -116,3 +120,30 @@ class CustomerCLI:
         ] for b in bookings]
 
         print(tabulate(table, headers=["ID", "CarId","Make","Model", "Start", "End", "Cost"]))
+    def cancel_booking(self):
+        print("\n===== CANCEL BOOKING =====")
+
+        bookings = self.booking_service.get_user_bookings(self.user["id"])
+
+        if not bookings:
+            print("No bookings found.")
+            return
+
+        table = [[
+            b["id"],
+            b["car_id"],
+            b["start_date"],
+            b["end_date"],
+            b["total_cost"]
+        ] for b in bookings]
+
+        print(tabulate(table, headers=["ID", "Car ID", "Start", "End", "Cost"]))
+
+        booking_id = int(input("\nEnter Booking ID to cancel: "))
+
+        result = self.booking_service.cancel_booking(booking_id)
+
+        if isinstance(result, dict) and "error" in result:
+            print("\n❌", result["error"])
+        else:
+            print("\n✅ Booking cancelled successfully!")
