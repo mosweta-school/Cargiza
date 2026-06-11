@@ -197,5 +197,5 @@ feature → development → main
 - Add payment simulation system
 - Improve UI with rich terminal interface (Textual / curses)
 - Integrate real holiday API for dynamic holiday detection
-👨‍💻 Author
+## 👨‍💻 Author
 Deogracious Moriasi
