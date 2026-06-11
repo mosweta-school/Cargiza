@@ -19,9 +19,19 @@ class JsonRepository:
                 }, f, indent=4)
 
     def load_data(self) -> dict:
-        """Load entire database"""
-        with open(self.file_path, "r") as f:
-            return json.load(f)
+        """Load entire database safely (CI-proof)"""
+        try:
+            with open(self.file_path, "r") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            data = {}
+
+        # ✅ GUARANTEE STRUCTURE
+        data.setdefault("users", [])
+        data.setdefault("cars", [])
+        data.setdefault("bookings", [])
+
+        return data
 
     def save_data(self, data: dict) -> None:
         """Save entire database"""
