@@ -103,8 +103,8 @@ Pricing is computed dynamically based on booking duration:
 Formula:
 Base price = daily_rate × number_of_days
 Discounts:
-Weekend discount (Saturday & Sunday)
-Holiday discount (public holidays if applicable)
+Weekend discount at 10% (Saturday & Sunday) 
+Holiday discount at 15% (public holidays if applicable)
 
 Note: Holiday detection is implemented using holidays python package
 
